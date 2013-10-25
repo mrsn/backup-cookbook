@@ -34,3 +34,4 @@ default.backup.group = 'root'
 default.backup.version = '3.7.2'
 default.backup.upgrade_flag = false
 default.backup.server = {}
+default.backup.directories_to_backup = ['/tmp/backup', '/home/vagrant']
