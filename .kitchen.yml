@@ -15,5 +15,5 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[backup]"]
+  run_list: ["recipe[minitest-handler]", "recipe[backup]"]
   attributes: {}

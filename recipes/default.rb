@@ -17,29 +17,35 @@
 # limitations under the License.
 #
 
+if node.platform == 'ubuntu' or node.platform == 'debian'
+  include_recipe 'apt'
+elsif node.platform == 'centos'
+  include_recipe 'yum'
+end
+
+(node.backup.dependencies).each do |dependency|
+  package dependency
+end
+
 gem_package 'backup' do
-  version node['backup']['version'] if node['backup']['version']
-  action :upgrade if node['backup']['upgrade?']
+  version node.backup.version
+  gem_binary '/opt/chef/embedded/bin/gem'
+  options '--no-ri --no-rdoc'
+  action :upgrade if node.backup.upgrade_flag
 end
 
-node['backup']['dependencies'].each do |gem, ver|
-  gem_package gem do
-    version ver if ver
-  end
-end
-
-%w[ config_path model_path ].each do |dir|
-  directory node['backup'][dir] do
-    owner node['backup']['user']
-    group node['backup']['group']
+%w[ config_path model_path log_path ].each do |dir|
+  directory node.backup[dir] do
+    owner node.backup.user
+    group node.backup.group
     mode '0700'
   end
 end
 
-template "Backup config file" do
-  path ::File.join( node['backup']['config_path'], "config.rb")
-  source 'config.rb.erb'
-  owner node['backup']['user']
-  group node['backup']['group']
-  mode '0600'
-end
+#template "Backup config file" do
+#  path ::File.join( node['backup']['config_path'], "config.rb")
+#  source 'config.rb.erb'
+#  owner node['backup']['user']
+#  group node['backup']['group']
+#  mode '0600'
+#end

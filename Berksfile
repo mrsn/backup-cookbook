@@ -2,4 +2,7 @@ site :opscode
 
 metadata
 
-cookbook 'backup-cookbook', git: 'git://github.com/mrsn/backup-cookbook.git'
+cookbook 'apt'
+cookbook 'yum'
+cookbook 'backup-cookbook', :path => '.'
+cookbook 'minitest-handler'

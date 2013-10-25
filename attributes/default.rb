@@ -17,13 +17,20 @@
 # limitations under the License.
 #
 
-default['backup']['path']         = '/var/backups' # LEGACY
-default['backup']['config_path']  = '/etc/backup'
-default['backup']['log_path']     = '/var/log'
-default['backup']['model_path']   = "#{node['backup']['config_path']}/models"
-default['backup']['dependencies'] = []
-default['backup']['user']         = 'root'
-default['backup']['group']        = 'root'
-default['backup']['version']      = '3.0.25'
-default['backup']['upgrade?']     = false
-default['backup']['server']       = {}
+case node.platform
+when 'ubuntu', 'debian'
+  default.backup.dependencies = ['libxml2-dev', 'libxslt-dev']
+when 'centos'
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel']
+else
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel']
+end
+
+default.backup.config_path = '/etc/backup'
+default.backup.log_path = '/var/log'
+default.backup.model_path = "#{node.backup.config_path}/models"
+default.backup.user = 'root'
+default.backup.group = 'root'
+default.backup.version = '3.7.2'
+default.backup.upgrade_flag = false
+default.backup.server = {}
