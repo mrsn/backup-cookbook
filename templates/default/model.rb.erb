@@ -2,21 +2,21 @@
 
 Backup::Model.new(:my_backup, '<%= @backup_description %>') do
 
-  split_into_chunks_of <%= @chunk_size %>
+  split_into_chunks_of <%= @chunk_size_in_mb %>
 
   archive :my_archive do |archive|
-  <% @directories_to_archive.each do |directory| %>
-    archive.add directory
+  <% @local_directories.each do |directory| %>
+    archive.add <%= directory %>
   <% end %>
   end
 
   store_with SFTP do |server|
-    server.username   = "<%= @sftp_username %>" 
+    server.username   = "<%= @sftp_username %>"
     server.password   = "<%= @sftp_password %>"
     server.ip         = "<%= @sftp_server_ip %>"
     server.port       = "<%= @sftp_server_port %>"
     server.path       = "<%= @sftp_server_backup_path %>"
-    server.keep       = <%= @keep %>
+    server.keep       = <%= @keep_cycle %>
   end
 
   compress_with <%= @compress_method %>

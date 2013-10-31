@@ -42,10 +42,39 @@ end
   end
 end
 
-#template "Backup config file" do
-#  path ::File.join( node['backup']['config_path'], "config.rb")
-#  source 'config.rb.erb'
-#  owner node['backup']['user']
-#  group node['backup']['group']
-#  mode '0600'
-#end
+template 'Creating the config file' do
+  path ::File.join(node.backup.config_path, 'config.rb')
+  source 'config.rb.erb'
+  owner node.backup.user
+  group node.backup.group
+  mode '0600'
+  action :create
+end
+
+if Chef::Config[:solo]
+  backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
+else
+  backup_config = Chef::EncryptedDataBagItem.load('backup_config', data_bag_item)
+end
+
+template 'Creating the model file' do
+  path ::File.join(node.backup.config_path, '/models/backup.rb')
+  source 'model.rb.erb'
+  owner node.backup.user
+  group node.backup.group
+  variables(
+    :local_directories                 => backup_config['local_backup_directories'],
+    :backup_description                => backup_config['description'],
+    :chunk_size_in_mb                  => backup_config['chunk_size_in_mb'],
+    :sftp_username                     => backup_config['sftp_username'],
+    :sftp_password                     => backup_config['sftp_password'],
+    :sftp_server_ip                    => backup_config['sftp_server_ip'],
+    :sftp_server_port                  => backup_config['sftp_server_port'],
+    :sftp_server_backup_path           => backup_config['sftp_server_backup_path'],
+    :time_to_keep_in_days              => backup_config['time_to_keep_in_days'],
+    :compress_with                     => backup_config['compression'],
+    :encryption                        => backup_config['encryption_algorithm']
+  )
+  mode '0600'
+  action :create
+end
