@@ -84,7 +84,7 @@ template 'Creating the model file' do
     :sftp_server_backup_path           => backup_config['sftp_server_backup_path'],
     :time_to_keep_in_days              => backup_config['time_to_keep_in_days'],
     :compress_with                     => backup_config['compression'],
-    :encryption                        => backup_config['encryption_algorithm']
+    :encryption                        => backup_config['encryption_algorithm'],
     :keep_time                         => backup_config['keep_time']
   )
   mode '0600'
