@@ -16,7 +16,7 @@ Backup::Model.new(:my_backup, '<%= @backup_description %>') do
     server.ip         = "<%= @sftp_server_ip %>"
     server.port       = "<%= @sftp_server_port %>"
     server.path       = "<%= @sftp_server_backup_path %>"
-    server.keep       = <%= @keep_cycle %>
+    server.keep       = <%= @keep_time %>
   end
 
   compress_with <%= @compress_method %>
