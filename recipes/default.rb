@@ -27,8 +27,19 @@ end
   package dependency
 end
 
+gem_version = node.backup.version
+local_gem_path = "/tmp/backup-#{gem_version}.gem"
+
+remote_file local_gem_path do
+  source "https://s3-eu-west-1.amazonaws.com/gemrepo/backup-#{gem_version}.gem"
+  mode '0644'
+  action :create_if_missing
+end
+
+
 gem_package 'backup' do
   version node.backup.version
+  source local_gem_path
   gem_binary '/opt/chef/embedded/bin/gem'
   options '--no-ri --no-rdoc'
   action :upgrade if node.backup.upgrade_flag
