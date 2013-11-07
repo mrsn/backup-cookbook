@@ -32,6 +32,6 @@ default.backup.model_path = "#{node.backup.config_path}/models"
 default.backup.user = 'root'
 default.backup.group = 'root'
 default.backup.version = '3.7.4'
-default.backup.upgrade_flag = false
+default.backup.upgrade_flag = true
 default.backup.server = {}
 default.backup.local_directories = ['/tmp/backup', '/home/vagrant']
