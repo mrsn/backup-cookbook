@@ -80,7 +80,7 @@ template 'Creating the model file' do
     :sftp_username                     => backup_config['sftp_username'],
     :sftp_password                     => backup_config['sftp_password'],
     :sftp_server_ip                    => backup_config['sftp_server_ip'],
-    :sftp_server_port                  => backup_config['sftp_server_port'],
+    :sftp_server_port                  => backup_config['sftp_server_port'] || 22,
     :sftp_server_backup_path           => backup_config['sftp_server_backup_path'],
     :time_to_keep_in_days              => backup_config['time_to_keep_in_days'],
     :compress_with                     => backup_config['compression'],

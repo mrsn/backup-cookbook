@@ -7,7 +7,7 @@
   "local_backup_directories": ["/tmp/backup"],
   "chunk_size_in_mb": 1000,
   "sftp_server_backup_path": "/var/backups",
-  "keep_time": 5,
+  "time_to_keep_in_days": 5,
   "compression_algorithm": "",
   "encryption": false,
   "encryption_algorithm": "gpg"

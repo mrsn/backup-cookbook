@@ -3,6 +3,7 @@
   "sftp_username": "vagrant",
   "sftp_password": "vagrant",
   "sftp_server_ip": "1.2.3.4",
+  "sftp_server_port": 22,
   "local_backup_directories": ["/tmp/backup"],
   "chunk_size_in_mb": 1000,
   "sftp_server_backup_path": "/var/backups",
