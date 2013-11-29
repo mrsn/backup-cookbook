@@ -15,6 +15,10 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[minitest-handler]", "recipe[backup]"]
+  run_list: ["recipe[minitest-handler]", "recipe[backup::default]"]
+  data_bags_path: 'test/data_bags'
+  attributes: {}
+- name: model
+  run_list: ["recipe[minitest-handler]", "recipe[backup_test::model]"]
   data_bags_path: 'test/data_bags'
   attributes: {}

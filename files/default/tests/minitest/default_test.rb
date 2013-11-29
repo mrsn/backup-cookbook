@@ -39,16 +39,6 @@ describe 'zabbix::default' do
     .and(:group, node.backup.group)
   end
 
-  it 'ensures the backup model configuration exists' do
-    file(node.backup.config_path + '/models/backup.rb').must_have(:mode, '600')
-    .with(:owner, node.backup.user)
-    .and(:group, node.backup.group)
-  end
-
-  it 'ensures all the config files have the right content' do
-    skip('not implemented yet')
-  end
-
 end
 
 

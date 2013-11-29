@@ -36,7 +36,6 @@ remote_file local_gem_path do
   action :create_if_missing
 end
 
-
 gem_package 'backup' do
   version node.backup.version
   source local_gem_path
@@ -62,47 +61,11 @@ template 'Creating the config file' do
   action :create
 end
 
-if Chef::Config[:solo]
-  backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
-else
-  backup_config = Chef::EncryptedDataBagItem.load('backup_config', data_bag_item)
-end
-
-conf = {}
-
-sftp_config = {
-  :local_directories                 => backup_config['local_backup_directories'],
-  :backup_description                => backup_config['description'],
-  :chunk_size_in_mb                  => backup_config['chunk_size_in_mb'],
-  :sftp_username                     => backup_config['sftp_username'],
-  :sftp_password                     => backup_config['sftp_password'],
-  :sftp_server_ip                    => backup_config['sftp_server_ip'],
-  :sftp_server_port                  => backup_config['sftp_server_port'] || 22,
-  :sftp_server_backup_path           => backup_config['sftp_server_backup_path'],
-  :time_to_keep_in_days              => backup_config['time_to_keep_in_days'],
-  :compress_with                     => backup_config['compression'],
-  :encryption                        => backup_config['encryption_algorithm']
-}
-
-zabbix_notifier = {
-  :on_success   => true,
-  :on_warning   => true,
-  :on_failure   => true,
-  :zabbix_host  => '192.168.33.33',
-  :zabbix_port  => 10051,
-  :service_name => ('Backup trigger for ' + node.ipaddress),
-  :service_host => node.fqdn,
-  :item_key     => 'backup_status'
-}
-
-template 'Creating the model file' do
-  path ::File.join(node.backup.config_path, '/models/backup.rb')
-  source 'model.rb.erb'
-  owner node.backup.user
-  group node.backup.group
-  variables(
-    conf.merge(sftp_config).merge(zabbix_notifier)
-  )
-  mode '0600'
-  action :create
-end
+#cron_d 'backup_job' do
+#  command "/opt/chef/embedded/bin/backup perform -t my_backup --config-file #{node.backup.config_path}/config.rb --log-path=#{node.backup.log_path} > /dev/null"
+#  minute '*/2'
+#  hour '*'
+#  day '*'
+#  month '*'
+#  weekday '*'
+#end

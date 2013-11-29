@@ -1,0 +1,32 @@
+{
+  "id": "model-ubuntu-1204_vagrantup_com",
+  "name" : "backup for model-ubuntu-1204_vagrantup_com",
+  "description" : "backup ftw!",
+  "split_into_chunks_of" : 250,
+  "compress_with" : "Gzip",
+  "encrypt_with" : {
+    "GPG" : {
+      "encryption.mode" : "symmetric",
+      "encryption.passphrase" : "my_password"
+    }
+  },
+  "archives" : {
+    "kewl" : {  
+       "add" : "/tmp/backup",
+       "exclude" : ""
+    }
+  },
+  "storages": {
+    "sftp" :  {
+      "username":"vagrant",
+      "password":"vagrant",
+      "ip":"1.2.3.4",
+      "port" : 22,
+      "path": "/var/backups",
+      "keep": 5
+    }
+  }
+}
+
+
+

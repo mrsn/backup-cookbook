@@ -1,8 +1,3 @@
-# Support whyrun
-def whyrun_supported?
-  true
-end
-
 action :create do
   cron_options = new_resource.cron_options || {}
 
@@ -21,19 +16,34 @@ action :create do
     month new_resource.schedule[:month] || '*'
     weekday new_resource.schedule[:weekday] || '*'
   end
-
+=begin
   template "Model file for #{new_resource.name}" do
     path ::File.join(node['backup']['model_path'], "#{new_resource.name}.rb")
     source 'model.erb'
-    owner node['backup']['user']
-    group node['backup']['group']
+    owner node.backup.user
+    group node.backup.group
     mode '0600'
-    cookbook new_resource.cookbook
     variables(
       :name => new_resource.name,
       :description => new_resource.description || new_resource.name,
       :definition => new_resource.definition
     )
+  end
+=end
+  # create definition builder!
+  template 'Creating the model file' do
+    path ::File.join(node.backup.config_path, '/models/backup.rb')
+    source 'model.rb.erb'
+    owner node.backup.user
+    group node.backup.group
+    #variables conf.merge(sftp_config).merge(zabbix_notifier)
+    variables(
+      :name => new_resource.name,
+      :description => new_resource.description || new_resource.name,
+      :definition => new_resource.definition
+    )
+    mode '0600'
+    action :create
   end
 end
 

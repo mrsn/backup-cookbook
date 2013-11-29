@@ -1,17 +1,55 @@
 # encoding: utf-8
 
-Backup::Model.new(:my_backup, '<%= @backup_description %>') do
+Backup::Model.new('<%= @name %>', '<%= @description %>') do
 
-  split_into_chunks_of <%= @chunk_size_in_mb %>
+  split_into_chunks_of <%= @split_into_chunks_of %>
 
-  archive :my_archive do |archive|
-  <% @local_directories.each do |directory| %>
-    archive.add "<%= directory %>"
+  <% @archives.each_pair do |name, configuration| %>
+    archive '<%= name %>' do |archive|
+      archive.add '<%= configuration['add'] %>'
+      archive.exclude '<%= configuration['exclude'] %>'
+    end
+
   <% end %>
-  end
 
-<%= render "sftp_store_configuration.erb" %>
+  <% @storages.each_pair do |storage_type, configuration| %>
+    store_with <%= storage_type %> do |server|
+      server.username = '<%= configuration['username'] %>'
+      server.password = '<%= configuration['password'] %>'
+      server.ip = '<%= configuration['ip'] %>'
+      server.port = '<%= configuration['port'] %>'
+      server.path = '<%= configuration['path'] %>'
+      server.keep = <%= configuration['keep'] %>
+    end
 
-<%= render "zabbix_notifier_configuration.erb" %>
+  <% end %>
 
+  <% @databases.each_pair do |database_type, configuration| %>
+    database <%= database_type %> do |db|
+      db.name = '<%= configuration['name']%>'
+      db.username = '<%= configuration['username']%>'
+      db.password = '<%= configuration['password']%>'
+      db.host = '<%= configuration['host']%>'
+      db.port = <%= configuration['port'] %>
+      db.skip_tables = <%= configuration['skip_tables'] %>
+      db.only_tables = <%= configuration['only_tables'] %>
+      db.additional_options = <%= configuration['additional_options'] %>
+    end
+
+  <% end %>
+
+  <% @notifiers.each_pair do |notifier_type, configuration| %>
+    <% if notifier_type == 'Zabbix' %>
+      notify_by <%= notifier_type %> do |notifier|
+      notifier.on_success = <%= configuration['on_success'] %>
+      notifier.on_warning = <%= configuration['on_warning'] %>
+      notifier.on_failure = <%= configuration['on_failure'] %>
+      #notifier.zabbix_host = '<%= configuration['zabbix_host'] %>'
+      #notifier.zabbix_port = <%= configuration['zabbix_port'] %>
+      #notifier.service_name = '<%= configuration['service_name'] %>'
+      #notifier.service_host = '<%= configuration['service_host'] %>'
+      notifier.item_key = '<%= configuration['item_key'] %>'
+    <% elsif notifier_type == 'Mail' %>
+    <% end %>
+  <% end %>
 end
