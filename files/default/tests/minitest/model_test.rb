@@ -42,7 +42,7 @@ describe 'backup_test::model' do
     end
   end
 
-  it 'ensures the mdoe file has the database backup configuration' do
+  it 'ensures the model file has the database backup configuration' do
    backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
    model_file = file(node.backup.config_path + '/models/backup.rb')
    backup_config['databases'].each_pair do |database_type, configuration|
