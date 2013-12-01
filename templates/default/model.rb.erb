@@ -41,14 +41,15 @@ Backup::Model.new('<%= @name %>', '<%= @description %>') do
   <% @notifiers.each_pair do |notifier_type, configuration| %>
     <% if notifier_type == 'Zabbix' %>
       notify_by <%= notifier_type %> do |notifier|
-      notifier.on_success = <%= configuration['on_success'] %>
-      notifier.on_warning = <%= configuration['on_warning'] %>
-      notifier.on_failure = <%= configuration['on_failure'] %>
-      notifier.zabbix_host = '<%= configuration['zabbix_host'] %>'
-      notifier.zabbix_port = <%= configuration['zabbix_port'] %>
-      notifier.service_name = '<%= configuration['service_name'] %>'
-      notifier.service_host = '<%= configuration['service_host'] %>'
-      notifier.item_key = '<%= configuration['item_key'] %>'
+        notifier.on_success = <%= configuration['on_success'] %>
+        notifier.on_warning = <%= configuration['on_warning'] %>
+        notifier.on_failure = <%= configuration['on_failure'] %>
+        notifier.zabbix_host = '<%= configuration['zabbix_host'] %>'
+        notifier.zabbix_port = <%= configuration['zabbix_port'] %>
+        notifier.service_name = '<%= configuration['service_name'] %>'
+        notifier.service_host = '<%= configuration['service_host'] %>'
+        notifier.item_key = '<%= configuration['item_key'] %>'
+      end
     <% elsif notifier_type == 'Mail' %>
     <% end %>
 
