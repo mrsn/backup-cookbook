@@ -34,7 +34,6 @@
   },
   "databases" : {
     "MySQL" : {
-      "name" : "my_database_name",
       "username" : "my_username",
       "password" : "my_password",
       "host" : "localhost",

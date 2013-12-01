@@ -47,7 +47,7 @@ describe 'backup_test::model' do
    model_file = file(node.backup.config_path + '/models/backup.rb')
    backup_config['databases'].each_pair do |database_type, configuration|
      model_file.must_include("database #{database_type} do |db|")
-     model_file.must_include("db.name = '#{configuration['name']}'")
+     model_file.must_include("db.name = '#{configuration['name']}'") unless configuration['name'].nil?
      model_file.must_include("db.username = '#{configuration['username']}'")
      model_file.must_include("db.password = '#{configuration['password']}'")
      model_file.must_include("db.host = '#{configuration['host']}'")

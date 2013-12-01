@@ -26,10 +26,12 @@ Backup::Model.new('<%= @name %>', '<%= @description %>') do
 
   <% @databases.each_pair do |database_type, configuration| %>
     database <%= database_type %> do |db|
-      db.name = '<%= configuration['name']%>'
-      db.username = '<%= configuration['username']%>'
-      db.password = '<%= configuration['password']%>'
-      db.host = '<%= configuration['host']%>'
+      <% unless configuration['name'].nil? %>
+      db.name = '<%= configuration['name'] %>'
+      <% end %>
+      db.username = '<%= configuration['username'] %>'
+      db.password = '<%= configuration['password'] %>'
+      db.host = '<%= configuration['host'] %>'
       db.port = <%= configuration['port'] %>
       db.skip_tables = <%= configuration['skip_tables'] %>
       db.only_tables = <%= configuration['only_tables'] %>
