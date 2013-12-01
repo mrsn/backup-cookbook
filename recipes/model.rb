@@ -39,26 +39,11 @@ else
       temp_configuration['Zabbix']['service_name'] = 'Backup trigger for ' + node.ipaddress
       temp_configuration['Zabbix']['service_host'] = node.fqdn
     end
+    #TODO make this work for mail
+    raise 'Notification work only for zabbix at the moment' if notification_type == 'Mail'
   end
-  model_configuration_container.merge! ({ 'notifiers' => temp_configuration['notifiers'] })
+  model_configuration_container.merge! ({ 'notifiers' => temp_configuration })
 end
-
-=begin
-zabbix_notifier = {
-  :on_success   => node.zabbix_notifier.on_success,
-  :on_warning   => node.zabbix_notifier.on_warning,
-  :on_failure   => node.zabbix_notifier.on_failure,
-  :zabbix_host  => node.zabbix_notifier.host,
-  :zabbix_port  => node.zabbix_notifier.port,
-  :service_name => ('Backup trigger for ' + node.ipaddress),
-  :service_host => node.fqdn,
-  :item_key     => node.zabbix_notifier.item_key
-}
-
-model_configuration_container.merge!(zabbix_notifier)
-=end
-
-log(model_configuration_container)
 
 template 'Creating the model file' do
   path ::File.join(node.backup.config_path, '/models/backup.rb')

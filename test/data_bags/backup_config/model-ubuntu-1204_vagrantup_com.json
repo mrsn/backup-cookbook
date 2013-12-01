@@ -1,7 +1,7 @@
 {
   "id": "model-ubuntu-1204_vagrantup_com",
   "name" : "backup for model-ubuntu-1204_vagrantup_com",
-  "description" : "backup ftw!",
+ "description" : "backup ftw!",
   "split_into_chunks_of" : 250,
   "compress_with" : "Gzip",
   "encrypt_with" : {
@@ -14,10 +14,18 @@
     "kewl" : {  
        "add" : "/tmp/backup",
        "exclude" : ""
+    },
+    "v3ry_kewl" : {  
+       "add" : "/tmp/backup1",
+       "exclude" : ""
+    },
+   "n0t_v3ry_kewl" : {  
+       "add" : "/tmp/backup2",
+       "exclude" : "exclude-this.log"
     }
   },
   "storages": {
-    "sftp" :  {
+    "SFTP" :  {
       "username":"vagrant",
       "password":"vagrant",
       "ip":"1.2.3.4",
@@ -25,8 +33,35 @@
       "path": "/var/backups",
       "keep": 5
     }
+  },
+  "databases" : {
+    "MySQL" : {
+      "name" : "my_database_name",
+      "username" : "my_username",
+      "password" : "my_password",
+      "host" : "localhost",
+      "port" : 3306,
+      "skip_tables" : ["table1", "table2", "table3"],
+      "only_tables" : ["zabbix"],
+      "additional_options" : ["--quick", "--single-transaction"]
+    },
+    "PostgreSQL" : {
+      "name" : "my_database_name",
+      "username" : "my_username",
+      "password" : "my_password",
+      "host" : "localhost",
+      "port" : 5432,
+      "skip_tables" : [],
+      "only_tables" : [],
+      "additional_options" : []
+    }
+  },
+  "notifiers" : {
+    "Zabbix" : {
+      "on_success" : true,
+      "on_warning" : true,
+      "on_failure" : true,
+      "item_key" : "backup_status"
+    }
   }
 }
-
-
-

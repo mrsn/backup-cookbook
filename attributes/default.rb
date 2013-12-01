@@ -36,20 +36,5 @@ default.backup.upgrade_flag = true
 default.backup.server = {}
 default.backup.local_directories = ['/tmp/backup', '/home/vagrant']
 
-default.zabbix_notifier.on_success = true
-default.zabbix_notifier.on_warning = true
-default.zabbix_notifier.on_failure = true
 default.zabbix_notifier.host = '192.168.33.33'
 default.zabbix_notifier.port = 10051
-default.zabbix_notifier.item_key = 'backup_status'
-
-zabbix_notifier = {
-  :on_success   => true,
-  :on_warning   => true,
-  :on_failure   => true,
-  :zabbix_host  => '192.168.33.33',
-  :zabbix_port  => 10051,
-  :service_name => ('Backup trigger for ' + node.ipaddress),
-  :service_host => node.fqdn,
-  :item_key     => 'backup_status'
-}

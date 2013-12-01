@@ -67,11 +67,11 @@ describe 'backup_test::model' do
        model_file.must_include("notifier.on_success = #{configuration['on_success']}")
        model_file.must_include("notifier.on_warning = #{configuration['on_warning']}")
        model_file.must_include("notifier.on_failure = #{configuration['on_failure']}")
-       model_file.must_include("notifier.zabbix_host = '#{configuration['zabbix_host']}'")
-       model_file.must_include("notifier.zabbix_port = '#{configuration['zabbix_port']}'")
-       model_file.must_include("notifier.service_name = '#{configuration['service_name']}'")
-       model_file.must_include("notifier.service_host = '#{configuration['service_host']}'")
-       model_file.must_include("notifier.item_key = '#{configuration['item_key']}'")
+       model_file.must_include("notifier.zabbix_host = '#{node.zabbix_notifier.host}'")
+       model_file.must_include("notifier.zabbix_port = #{node.zabbix_notifier.port}")
+       model_file.must_include("notifier.service_name = 'Backup trigger for #{node.ipaddress}'")
+       model_file.must_include("notifier.service_host = '#{node.fqdn}'")
+       model_file.must_include("notifier.item_key = '#{configuration['item_key']}")
      elsif notifier_type == 'Mail'
      else
      end
