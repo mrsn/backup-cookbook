@@ -5,8 +5,8 @@ else
 end
 
 model_configuration_container = {
-  :name        => backup_config['name'],
-  :description => backup_config['description'],
+  :name        => "backup-for-#{node.fqdn}",
+  :description => "backup model for #{node.fqdn}",
   :split_into_chunks_of => backup_config['split_into_chunks_of']
 }
 
@@ -39,7 +39,7 @@ else
       temp_configuration['Zabbix']['service_name'] = 'Backup trigger for ' + node.ipaddress
       temp_configuration['Zabbix']['service_host'] = node.fqdn
     end
-    #TODO make this work for mail
+    #TODO: make this work for mail
     raise 'Notification work only for zabbix at the moment' if notification_type == 'Mail'
   end
   model_configuration_container.merge! ({ 'notifiers' => temp_configuration })

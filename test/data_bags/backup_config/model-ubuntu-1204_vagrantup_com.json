@@ -1,7 +1,5 @@
 {
   "id": "model-ubuntu-1204_vagrantup_com",
-  "name" : "backup for model-ubuntu-1204_vagrantup_com",
- "description" : "backup ftw!",
   "split_into_chunks_of" : 250,
   "compress_with" : "Gzip",
   "encrypt_with" : {

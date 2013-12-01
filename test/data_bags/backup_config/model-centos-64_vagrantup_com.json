@@ -1,7 +1,5 @@
 {
   "id": "model-centos-64_vagrantup_com",
-  "name" : "backup for model-centos-64_vagrantup_com",
-  "description" : "backup ftw!",
   "split_into_chunks_of" : 250,
   "compress_with" : "Gzip",
   "encrypt_with" : {

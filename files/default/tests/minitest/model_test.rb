@@ -13,7 +13,7 @@ describe 'backup_test::model' do
   it 'ensures the model file has the global configuration' do
     backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
     model_file = file(node.backup.config_path + '/models/backup.rb')
-    model_file.must_include("Backup::Model.new('#{backup_config['name']}', '#{backup_config['description']}')")
+    model_file.must_include("Backup::Model.new('backup-for-#{node.fqdn}', 'backup model for #{node.fqdn}')")
     model_file.must_include("split_into_chunks_of #{backup_config['split_into_chunks_of']}")
   end
 
