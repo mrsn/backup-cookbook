@@ -77,4 +77,26 @@ describe 'backup_test::model' do
      end
    end
   end
+
+  it 'ensures the cronjob is correct configured' do
+    backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
+    file_path = "/etc/cron.d/backup-job-for-#{node.fqdn}"
+    file(file_path).must_have(:mode, '644')
+    .with(:owner, 'root')
+    .and(:group, 'root')
+
+    cron_schedule = "#{backup_config['cron_job_schedule']['minute']}" + 
+      " #{backup_config['cron_job_schedule']['hour']}" +
+      " #{backup_config['cron_job_schedule']['day']}" +
+      " #{backup_config['cron_job_schedule']['month']}" +
+      " #{backup_config['cron_job_schedule']['weekday']}"
+
+    file(file_path).must_include(cron_schedule)
+
+    cmd = "#{node.backup.bin_path} perform" +
+      " -t backup-for-#{node.fqdn} --config-file #{node.backup.config_path}/config.rb" +
+      " --log-path=#{node.backup.log_path} > /dev/null"
+
+    file(file_path).must_include(cmd)
+  end
 end

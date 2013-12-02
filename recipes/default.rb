@@ -17,11 +17,11 @@
 # limitations under the License.
 #
 
-if node.platform == 'ubuntu' or node.platform == 'debian'
-  include_recipe 'apt'
-elsif node.platform == 'centos'
-  include_recipe 'yum'
-end
+#if node.platform == 'ubuntu' or node.platform == 'debian'
+#  include_recipe 'apt'
+#elsif node.platform == 'centos'
+#  include_recipe 'yum'
+#end
 
 (node.backup.dependencies).each do |dependency|
   package dependency
@@ -60,12 +60,3 @@ template 'Creating the config file' do
   mode '0600'
   action :create
 end
-
-#cron_d 'backup_job' do
-#  command "/opt/chef/embedded/bin/backup perform -t my_backup --config-file #{node.backup.config_path}/config.rb --log-path=#{node.backup.log_path} > /dev/null"
-#  minute '*/2'
-#  hour '*'
-#  day '*'
-#  month '*'
-#  weekday '*'
-#end

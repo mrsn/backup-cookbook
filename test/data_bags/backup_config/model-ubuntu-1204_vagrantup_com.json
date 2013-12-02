@@ -61,5 +61,12 @@
       "on_failure" : true,
       "item_key" : "backup_status"
     }
+  },
+  "cron_job_schedule" : {
+    "minute" : "*/2",
+    "hour" : "*",
+    "day" : "*",
+    "month" : "*",
+    "weekday" : "*"
   }
 }

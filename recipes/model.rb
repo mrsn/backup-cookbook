@@ -4,8 +4,10 @@ else
   backup_config = Chef::EncryptedDataBagItem.load('backup_config', data_bag_item)
 end
 
+backup_name = "backup-for-#{node.fqdn}"
+
 model_configuration_container = {
-  :name        => "backup-for-#{node.fqdn}",
+  :name        => backup_name,
   :description => "backup model for #{node.fqdn}",
   :split_into_chunks_of => backup_config['split_into_chunks_of']
 }
@@ -53,4 +55,17 @@ template 'Creating the model file' do
   variables model_configuration_container
   mode '0600'
   action :create
+end
+
+backup_command = "#{node.backup.bin_path} perform" +
+  " -t #{backup_name} --config-file #{node.backup.config_path}/config.rb" +
+  " --log-path=#{node.backup.log_path} > /dev/null"
+
+cron_d "backup-job-for-#{node.fqdn}" do
+  command backup_command
+  minute backup_config['cron_job_schedule']['minute']
+  hour backup_config['cron_job_schedule']['hour']
+  day backup_config['cron_job_schedule']['day']
+  month backup_config['cron_job_schedule']['month']
+  weekday backup_config['cron_job_schedule']['weekday']
 end

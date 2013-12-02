@@ -19,22 +19,22 @@
 
 case node.platform
 when 'ubuntu', 'debian'
-  default.backup.dependencies = ['libxml2-dev', 'libxslt-dev', 'mysql-client']
+  default.backup.dependencies = ['libxml2-dev', 'libxslt-dev', 'mysql-client', 'postgresql-client']
 when 'centos'
-  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql']
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql', 'postgresql']
 else
-  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql']
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql', 'postgresql']
 end
 
 default.backup.config_path = '/etc/backup'
 default.backup.log_path = '/var/log'
 default.backup.model_path = "#{node.backup.config_path}/models"
+default.backup.bin_path = '/opt/chef/embedded/bin/backup'
 default.backup.user = 'root'
 default.backup.group = 'root'
 default.backup.version = '3.7.7'
 default.backup.upgrade_flag = true
 default.backup.server = {}
-default.backup.local_directories = ['/tmp/backup', '/home/vagrant']
 
 default.zabbix_notifier.host = '192.168.33.33'
 default.zabbix_notifier.port = 10051
