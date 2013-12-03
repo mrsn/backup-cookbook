@@ -99,4 +99,13 @@ describe 'backup_test::model' do
 
     file(file_path).must_include(cmd)
   end
+
+  it 'ensures all the backup utilities are set if any' do
+    backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
+    model_file = file(node.backup.config_path + '/models/backup.rb')
+    backup_config['utilities'].each_pair do |utility_name, utility_path|
+      model_file.must_include('Backup::Utilities.configure do')
+      model_file.must_include("#{utility_name} '#{utility_path}'")
+    end
+  end
 end

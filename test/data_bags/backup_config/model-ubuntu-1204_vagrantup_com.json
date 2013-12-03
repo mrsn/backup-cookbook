@@ -68,5 +68,9 @@
     "day" : "*",
     "month" : "*",
     "weekday" : "*"
+  },
+  "utilities" : {
+    "pg_dump" : "/opt/chef-server/embedded/bin/pg_dump",
+    "pg_dumpall" : "/opt/chef-server/embedded/bin/pg_dumpall"
   }
 }

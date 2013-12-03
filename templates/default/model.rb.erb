@@ -56,4 +56,12 @@ Backup::Model.new('<%= @name %>', '<%= @description %>') do
     <% end %>
 
   <% end %>
+
+  <% unless @utilities.empty? %>
+  Backup::Utilities.configure do
+    <% @utilities.each_pair do |utility_name, utility_path| %>
+    <%= utility_name %> '<%= utility_path %>'
+    <% end %>
+  end
+  <% end %>
 end

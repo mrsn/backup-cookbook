@@ -15,6 +15,17 @@ model_configuration_container = {
 if backup_config['archives'].nil?
   model_configuration_container.merge!({'archives' => {}})
 else
+  model_configuration_container.merge!({'utilities' => backup_config['utilities']})
+end
+
+  utilities = { 
+    :pg_dump  => "/opt/chef-server/embedded/bin/pg_dumpall",
+    :pg_dumpall => "/opt/chef-server/embedded/bin/pg_dump"
+  }
+
+if backup_config['archives'].nil?
+  model_configuration_container.merge!({'archives' => {}})
+else
   model_configuration_container.merge!({ 'archives' => backup_config['archives'] })
 end
 

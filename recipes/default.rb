@@ -52,11 +52,21 @@ end
   end
 end
 
+if File.directory?('/opt/chef-server')
+  utilities = { 
+    :pg_dump  => "/opt/chef-server/embedded/bin/pg_dumpall",
+    :pg_dumpall => "/opt/chef-server/embedded/bin/pg_dump"
+  }
+else
+  utilities = {}
+end
+
 template 'Creating the config file' do
   path ::File.join(node.backup.config_path, 'config.rb')
   source 'config.rb.erb'
   owner node.backup.user
   group node.backup.group
+  variables utilities
   mode '0600'
   action :create
 end
