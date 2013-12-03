@@ -19,11 +19,11 @@
 
 case node.platform
 when 'ubuntu', 'debian'
-  default.backup.dependencies = ['libxml2-dev', 'libxslt-dev', 'mysql-client', 'postgresql-client']
+  default.backup.dependencies = ['libxml2-dev', 'libxslt-dev', 'mysql-client']
 when 'centos'
-  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql', 'postgresql']
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql']
 else
-  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql', 'postgresql']
+  default.backup.dependencies = ['gcc', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'mysql']
 end
 
 default.backup.config_path = '/etc/backup'

@@ -4,8 +4,8 @@
   "compress_with" : "Gzip",
   "encrypt_with" : {
     "GPG" : {
-      "encryption.mode" : "symmetric",
-      "encryption.passphrase" : "my_password"
+      "mode" : "symmetric",
+      "passphrase" : "my_password"
     }
   },
   "archives" : {

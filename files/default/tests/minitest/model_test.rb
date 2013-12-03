@@ -15,6 +15,16 @@ describe 'backup_test::model' do
     model_file = file(node.backup.config_path + '/models/backup.rb')
     model_file.must_include("Backup::Model.new('backup-for-#{node.fqdn}', 'backup model for #{node.fqdn}')")
     model_file.must_include("split_into_chunks_of #{backup_config['split_into_chunks_of']}")
+    model_file.must_include("compress_with #{backup_config['compress_with']}")
+  end
+
+  it 'ensures that the encryptors has the right configuration' do
+    backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
+    model_file = file(node.backup.config_path + '/models/backup.rb')
+    backup_config['encrypt_with'].each_pair do |encrypt_with, configuration|
+      model_file.must_include("encryption.mode = '#{configuration['mode']}'")
+      model_file.must_include("encryption.passphrase = '#{configuration['passphrase']}'")
+    end
   end
 
   it 'ensures the model file has archives backup configuration' do

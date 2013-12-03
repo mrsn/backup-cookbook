@@ -9,13 +9,20 @@ backup_name = "backup-for-#{node.fqdn}"
 model_configuration_container = {
   :name        => backup_name,
   :description => "backup model for #{node.fqdn}",
-  :split_into_chunks_of => backup_config['split_into_chunks_of']
+  :split_into_chunks_of => backup_config['split_into_chunks_of'],
+  :compress_with => backup_config['compress_with'] || 'Gzip'
 }
 
 if backup_config['utilities'].nil?
   model_configuration_container.merge!({'utilities' => {}})
 else
   model_configuration_container.merge!({'utilities' => backup_config['utilities']})
+end
+
+if backup_config['encrypt_with'].nil?
+  model_configuration_container.merge!({'encrypt_with' => {}})
+else
+  model_configuration_container.merge!({'encrypt_with' => backup_config['encrypt_with']})
 end
 
 if backup_config['archives'].nil?

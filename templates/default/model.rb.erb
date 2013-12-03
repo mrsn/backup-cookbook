@@ -3,11 +3,20 @@
 Backup::Model.new('<%= @name %>', '<%= @description %>') do
 
   split_into_chunks_of <%= @split_into_chunks_of %>
+  compress_with <%= @compress_with %>
 
   <% @archives.each_pair do |name, configuration| %>
     archive '<%= name %>' do |archive|
       archive.add '<%= configuration['add'] %>'
       archive.exclude '<%= configuration['exclude'] %>'
+    end
+
+  <% end %>
+
+  <% @encrypt_with.each_pair do |encryptor_name, configuration| %>
+    entcrypt_with <%= encryptor_name %> do |encryption|
+      encryption.mode = '<%= configuration['mode'] %>'
+      encryption.passphrase = '<%= configuration['passphrase'] %>'
     end
 
   <% end %>
