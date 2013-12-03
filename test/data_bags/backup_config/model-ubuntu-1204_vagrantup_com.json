@@ -3,9 +3,10 @@
   "split_into_chunks_of" : 250,
   "compress_with" : "Gzip",
   "encrypt_with" : {
-    "GPG" : {
-      "mode" : "symmetric",
-      "passphrase" : "my_password"
+    "OpenSSL" : {
+      "salt" : true,
+      "base64" : true,
+      "password" : "my_password"
     }
   },
   "archives" : {

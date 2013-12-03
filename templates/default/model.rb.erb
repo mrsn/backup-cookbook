@@ -14,9 +14,10 @@ Backup::Model.new('<%= @name %>', '<%= @description %>') do
   <% end %>
 
   <% @encrypt_with.each_pair do |encryptor_name, configuration| %>
-    entcrypt_with <%= encryptor_name %> do |encryption|
-      encryption.mode = '<%= configuration['mode'] %>'
-      encryption.passphrase = '<%= configuration['passphrase'] %>'
+    encrypt_with <%= encryptor_name %> do |encryption|
+      encryption.base64 = <%= configuration['base64'] %>
+      encryption.salt = <%= configuration['base64'] %>
+      encryption.password = '<%= configuration['password'] %>'
     end
 
   <% end %>

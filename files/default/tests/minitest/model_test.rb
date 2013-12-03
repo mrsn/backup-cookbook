@@ -22,8 +22,10 @@ describe 'backup_test::model' do
     backup_config = Chef::DataBagItem.load('backup_config', (node.fqdn).gsub('.', '_'))
     model_file = file(node.backup.config_path + '/models/backup.rb')
     backup_config['encrypt_with'].each_pair do |encrypt_with, configuration|
-      model_file.must_include("encryption.mode = '#{configuration['mode']}'")
-      model_file.must_include("encryption.passphrase = '#{configuration['passphrase']}'")
+      model_file.must_include("encrypt_with #{encrypt_with} do |encryption|")
+      model_file.must_include("encryption.base64 = #{configuration['base64']}")
+      model_file.must_include("encryption.salt = #{configuration['salt']}")
+      model_file.must_include("encryption.password = '#{configuration['password']}'")
     end
   end
 
