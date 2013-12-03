@@ -27,7 +27,7 @@ else
 end
 
 default.backup.config_path = '/etc/backup'
-default.backup.log_path = '/var/log'
+default.backup.log_path = '/var/log/backup'
 default.backup.model_path = "#{node.backup.config_path}/models"
 default.backup.bin_path = '/opt/chef/embedded/bin/backup'
 default.backup.user = 'root'
