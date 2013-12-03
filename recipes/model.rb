@@ -12,16 +12,11 @@ model_configuration_container = {
   :split_into_chunks_of => backup_config['split_into_chunks_of']
 }
 
-if backup_config['archives'].nil?
-  model_configuration_container.merge!({'archives' => {}})
+if backup_config['utilities'].nil?
+  model_configuration_container.merge!({'utilities' => {}})
 else
   model_configuration_container.merge!({'utilities' => backup_config['utilities']})
 end
-
-  utilities = { 
-    :pg_dump  => "/opt/chef-server/embedded/bin/pg_dumpall",
-    :pg_dumpall => "/opt/chef-server/embedded/bin/pg_dump"
-  }
 
 if backup_config['archives'].nil?
   model_configuration_container.merge!({'archives' => {}})
